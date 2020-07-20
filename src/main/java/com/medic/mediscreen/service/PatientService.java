@@ -1,14 +1,14 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.Patient;
-import com.medic.mediscreen.repositories.PatientRepository;
+import com.medic.mediscreen.repositories.MicroService_mediscreen_patient;
+import com.medic.mediscreen.repositories.Patient_Repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * createAccount() method create a new user account with encrypted password and save it in database
- * getAccountInfo() method retrieve name and email from the user
+ * classic CRUD methods in order to managing de Patient table in the database
  */
 
 @Service
@@ -16,14 +16,13 @@ import org.springframework.stereotype.Service;
 public class PatientService {
 
     @Autowired
-    protected PatientRepository patientRepository;
+    protected Patient_Repository patient_repository;
 
-    public void createAPatient(Patient patient) {
-        patientRepository.save(patient);
+    public void addAPatient(Patient patient) {
+        patient_repository.save(patient);
     }
 
-    public Patient getAPatient(String email) {
-        return patientRepository.findByEmail(email).get();
+    public void getAPatient(String given) {
+        patient_repository.findByGiven(given);
     }
-
 }

@@ -1,13 +1,13 @@
 package com.medic.mediscreen.controllers;
 
 
-import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.service.PatHistoryService;
+import com.medic.mediscreen.domain.Patient;
+import com.medic.mediscreen.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -17,23 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeControllers {
+@Autowired
+    PatientService patientService;
 
-    @Autowired
-    private PatHistoryService patientRepository;
 
     @RequestMapping("/")
     public String getLog(Model model) {
         return "LogPage";
     }
 
-    @GetMapping("/patHistory/get")
-    public String userPage(Model model) {
-            return "UserPage";
-    }
 
-    @PostMapping("/patHistory/add")
-    public String userPage(PatHistory patHistory) {
-        patientRepository.addAPatHistory(patHistory);
+    @PostMapping("/patient/add")
+    public String userPage(@RequestBody Patient patient) {
+        patientService.addAPatient(patient);
         return "UserPage";
     }
 

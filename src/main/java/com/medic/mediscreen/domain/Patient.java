@@ -1,10 +1,20 @@
 package com.medic.mediscreen.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "patient")
 public class Patient {
+
     @GeneratedValue
     Integer patId;
 
