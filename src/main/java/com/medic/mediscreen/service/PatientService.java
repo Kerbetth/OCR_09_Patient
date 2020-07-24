@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * classic CRUD methods in order to managing de Patient table in the database
  */
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PatientService {
 
+
     @Autowired
     protected Patient_Repository patient_repository;
 
@@ -22,7 +26,25 @@ public class PatientService {
         patient_repository.save(patient);
     }
 
-    public void getAPatient(String given) {
-        patient_repository.findByGiven(given);
+    public Patient getAPatient(int patId) {
+        return patient_repository.findByPatId(patId).get();
+    }
+
+    public List<Patient> getPatients() {
+        return patient_repository.findAll();
+    }
+
+    public void setAPatient(Patient newpatient) {
+        if (patient_repository.findByPatId(newpatient.getPatId()).isPresent()) {
+            patient_repository.save(newpatient);
+        }
+    }
+
+
+    public void deleteAPatient(int patientId) {
+        Optional<Patient> patient = patient_repository.findByPatId(patientId);
+        if (patient.isPresent()) {
+            patient_repository.delete(patient.get());
+        }
     }
 }

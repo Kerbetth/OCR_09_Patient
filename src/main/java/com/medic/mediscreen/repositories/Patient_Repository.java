@@ -14,4 +14,6 @@ import java.util.Optional;
 @Repository
 public interface Patient_Repository extends CrudRepository<Patient, Long> {
     Optional<Patient> findByGiven(String given);
+    Optional<Patient> findByPatId(int patId);
+    List<Patient> findAll();
 }
