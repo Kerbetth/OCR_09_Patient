@@ -1,13 +1,13 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.Patient;
-import com.medic.mediscreen.repositories.MicroService_mediscreen_patient;
 import com.medic.mediscreen.repositories.Patient_Repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -38,6 +38,7 @@ public class PatientService {
         if (patient_repository.findByPatId(newpatient.getPatId()).isPresent()) {
             patient_repository.save(newpatient);
         }
+        else throw new NoSuchElementException();
     }
 
 
@@ -46,5 +47,9 @@ public class PatientService {
         if (patient.isPresent()) {
             patient_repository.delete(patient.get());
         }
+    }
+
+    public int getPatientsIdByFamilyName(String familyName) {
+        return patient_repository.findByFamily(familyName).get().getPatId();
     }
 }

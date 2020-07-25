@@ -27,6 +27,11 @@ public class controllers {
         return patientService.getPatients();
     }
 
+    @GetMapping(value = "/Patients/{familyName}")
+    int getPatientIdByFamilyName(@PathVariable("familyName") String familyName){
+        return patientService.getPatientsIdByFamilyName(familyName);
+    }
+
     @GetMapping(value = "/Patient/{id}")
     Patient getPatient(@PathVariable("id") int id) {
         return patientService.getAPatient(id);
