@@ -5,6 +5,7 @@ import com.medic.mediscreen.repositories.Patient_Repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -35,6 +36,7 @@ public class PatientService {
     }
 
     public void setAPatient(Patient newpatient) {
+        System.out.println(newpatient.getPatId());
         if (patient_repository.findByPatId(newpatient.getPatId()).isPresent()) {
             patient_repository.save(newpatient);
         }

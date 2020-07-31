@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * -the root of the url give link to login or create an account
- * -userHome url is the main page of connected users
- */
 
-@Controller
+@RestController
 public class controllers {
 
     @Autowired
