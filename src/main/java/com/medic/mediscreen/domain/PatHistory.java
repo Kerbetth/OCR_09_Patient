@@ -1,5 +1,6 @@
 package com.medic.mediscreen.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +17,13 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = "id")
 public class PatHistory {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
     String note;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id", referencedColumnName = "patId")
     @NotNull
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pat_Id", referencedColumnName="id")
     private Patient patient;
 }

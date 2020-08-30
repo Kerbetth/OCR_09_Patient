@@ -5,7 +5,6 @@ import com.medic.mediscreen.repositories.Patient_Repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,8 +26,12 @@ public class PatientService {
         patient_repository.save(patient);
     }
 
-    public Patient getAPatient(int patId) {
-        return patient_repository.findByPatId(patId).get();
+    public Patient getAPatientById(int patId) {
+        return patient_repository.findById(patId).get();
+    }
+
+    public Patient getPatientsByFamilyName(String familyName) {
+        return patient_repository.findByFamily(familyName).get();
     }
 
     public List<Patient> getPatients() {
@@ -36,22 +39,17 @@ public class PatientService {
     }
 
     public void setAPatient(Patient newpatient) {
-        System.out.println(newpatient.getPatId());
-        if (patient_repository.findByPatId(newpatient.getPatId()).isPresent()) {
+        if (patient_repository.findById(newpatient.getId()).isPresent()) {
             patient_repository.save(newpatient);
         }
         else throw new NoSuchElementException();
     }
 
-
     public void deleteAPatient(int patientId) {
-        Optional<Patient> patient = patient_repository.findByPatId(patientId);
+        Optional<Patient> patient = patient_repository.findById(patientId);
         if (patient.isPresent()) {
             patient_repository.delete(patient.get());
         }
     }
 
-    public int getPatientsIdByFamilyName(String familyName) {
-        return patient_repository.findByFamily(familyName).get().getPatId();
-    }
 }
