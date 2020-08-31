@@ -21,13 +21,13 @@ public class controllers {
         return patientService.getPatients();
     }
 
-    @GetMapping(value = "/Patients/{familyName}")
-    Patient getPatientByFamilyName(@PathVariable("familyName") String familyName){
-        return patientService.getPatientsByFamilyName(familyName);
+    @GetMapping(value = "/Patient/familyName")
+    Patient getPatientByFamilyName(@RequestParam String familyName){
+        return patientService.getPatientByFamilyName(familyName);
     }
 
-    @GetMapping(value = "/Patient/{id}")
-    Patient getPatient(@PathVariable("id") int id) {
+    @GetMapping(value = "/Patient/id")
+    Patient getPatient(@RequestParam int id) {
         return patientService.getAPatientById(id);
     }
 

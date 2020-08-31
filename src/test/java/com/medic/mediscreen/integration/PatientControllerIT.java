@@ -1,6 +1,8 @@
 package com.medic.mediscreen.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.medic.mediscreen.domain.PatHistory;
 import com.medic.mediscreen.domain.Patient;
 import com.medic.mediscreen.service.PatientService;
@@ -11,11 +13,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -27,47 +33,51 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc(addFilters = false)
+@Sql(scripts={"classpath:test_data_init.sql"})
 public class PatientControllerIT {
 
-    @MockBean
-    private PatientService patientService;
 
 	@Autowired
 	MockMvc mockMvc;
 
-    PatHistory patHistory = new PatHistory();
-    List<Patient> patients =new ArrayList<>();
-    Patient patient = new Patient();
+
     ObjectMapper objectMapper = new ObjectMapper();
+    Patient patient = new Patient();
 
     @BeforeEach
     void setup() {
-	patHistory.setId(1);
-	patHistory.setPatient(new Patient());
-	patHistory.setNote("a note");
-	patients.add(new Patient());
+        patient.setSex('F');
+        patient.setPhone("000");
+        patient.setGiven("given");
+        patient.setFamily("family");
+        patient.setAddress("address");
+        patient.setDob(LocalDate.EPOCH);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     @Test
     public void getAllPatientsListForm() throws Exception {
-        when(patientService.getPatients()).thenReturn(patients);
-        mockMvc.perform(get("/Patients")
+       String result =mockMvc.perform(get("/Patients")
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        ArrayList<Patient> patients = objectMapper.readValue(result, ArrayList.class);
+        assertThat(patients).hasSize(10);
     }
 
     @Test
     public void getAPatientByName() throws Exception {
-        when(patientService.getPatientsByFamilyName(anyString())).thenReturn(new Patient());
-        mockMvc.perform(get("/Patients/AName")
+        mockMvc.perform(get("/Patient/familyName")
+                .param("familyName", "Clark")
         )
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getAPatientById() throws Exception {
-        when(patientService.getAPatientById(anyInt())).thenReturn(new Patient());
-        mockMvc.perform(get("/Patients/1")
+
+        mockMvc.perform(get("/Patient/id")
+                .param("id","1")
         )
                 .andExpect(status().isOk());
     }
@@ -75,6 +85,7 @@ public class PatientControllerIT {
 	@Test
 	public void addingAPatient() throws Exception {
         String json = objectMapper.writeValueAsString(patient);
+        System.out.println(json);
 		mockMvc.perform(post("/Patient/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json)
@@ -84,10 +95,12 @@ public class PatientControllerIT {
 
     @Test
     public void setAPatient() throws Exception {
+
         String json = objectMapper.writeValueAsString(patient);
         mockMvc.perform(post("/Patient/set")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
+                .param("id", "1")
         )
                 .andExpect(status().isOk());
     }

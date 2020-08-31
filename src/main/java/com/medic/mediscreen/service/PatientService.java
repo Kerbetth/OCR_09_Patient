@@ -22,20 +22,22 @@ public class PatientService {
     @Autowired
     protected Patient_Repository patient_repository;
 
-    public void addAPatient(Patient patient) {
-        patient_repository.save(patient);
-    }
+
 
     public Patient getAPatientById(int patId) {
-        return patient_repository.findById(patId).get();
+            return patient_repository.findById(patId).get();
     }
 
-    public Patient getPatientsByFamilyName(String familyName) {
+    public Patient getPatientByFamilyName(String familyName) {
         return patient_repository.findByFamily(familyName).get();
     }
 
     public List<Patient> getPatients() {
         return patient_repository.findAll();
+    }
+
+    public void addAPatient(Patient patient) {
+        patient_repository.save(patient);
     }
 
     public void setAPatient(Patient newpatient) {
@@ -50,6 +52,7 @@ public class PatientService {
         if (patient.isPresent()) {
             patient_repository.delete(patient.get());
         }
+        else throw new NoSuchElementException();
     }
 
 }

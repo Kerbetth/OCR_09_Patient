@@ -58,8 +58,9 @@ public class PatientController {
 
     @Test
     public void getAPatientByName() throws Exception {
-        when(patientService.getPatientsByFamilyName(anyString())).thenReturn(new Patient());
-        mockMvc.perform(get("/Patients/AName")
+        when(patientService.getPatientByFamilyName(anyString())).thenReturn(new Patient());
+        mockMvc.perform(get("/Patient/familyName")
+                .param("familyName","name")
         )
                 .andExpect(status().isOk());
     }
@@ -67,7 +68,8 @@ public class PatientController {
     @Test
     public void getAPatientById() throws Exception {
         when(patientService.getAPatientById(anyInt())).thenReturn(new Patient());
-        mockMvc.perform(get("/Patients/1")
+        mockMvc.perform(get("/Patient/id")
+                .param("id", "1")
         )
                 .andExpect(status().isOk());
     }
