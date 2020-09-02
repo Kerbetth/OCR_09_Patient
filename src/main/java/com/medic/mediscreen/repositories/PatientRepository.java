@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface Patient_Repository extends CrudRepository<Patient, Long> {
+public interface PatientRepository extends CrudRepository<Patient, Long> {
     Optional<Patient> findByFamily(String Family);
     Optional<Patient> findById(int id);
     List<Patient> findAll();

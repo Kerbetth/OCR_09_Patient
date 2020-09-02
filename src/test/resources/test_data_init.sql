@@ -4,9 +4,8 @@
 -- ------------------------------------------------------
 -- Server version	8.0.18
 
-
 DELETE FROM `patient`;
-DELETE FROM `patHistory`;
+
 
 --
 -- Dumping data for table `user_account`

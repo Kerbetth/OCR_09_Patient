@@ -1,7 +1,7 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.Patient;
-import com.medic.mediscreen.repositories.Patient_Repository;
+import com.medic.mediscreen.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,37 +20,40 @@ public class PatientService {
 
 
     @Autowired
-    protected Patient_Repository patient_repository;
+    protected PatientRepository patientRepository;
 
 
 
     public Patient getAPatientById(int patId) {
-            return patient_repository.findById(patId).get();
+        return patientRepository.findById(patId).get();
     }
 
     public Patient getPatientByFamilyName(String familyName) {
-        return patient_repository.findByFamily(familyName).get();
+        return patientRepository.findByFamily(familyName).get();
+
     }
 
     public List<Patient> getPatients() {
-        return patient_repository.findAll();
+
+        return patientRepository.findAll();
     }
 
-    public void addAPatient(Patient patient) {
-        patient_repository.save(patient);
+    public void addAPatient(Patient Patient) {
+        patientRepository.save(Patient);
     }
 
-    public void setAPatient(Patient newpatient) {
-        if (patient_repository.findById(newpatient.getId()).isPresent()) {
-            patient_repository.save(newpatient);
+    public void setAPatient(Patient patient) {
+        Optional<Patient> patientOptional =patientRepository.findById(patient.getId());
+        if (patientOptional.isPresent()) {
+            patientRepository.save(patient);
         }
         else throw new NoSuchElementException();
     }
 
     public void deleteAPatient(int patientId) {
-        Optional<Patient> patient = patient_repository.findById(patientId);
+        Optional<Patient> patient = patientRepository.findById(patientId);
         if (patient.isPresent()) {
-            patient_repository.delete(patient.get());
+            patientRepository.delete(patient.get());
         }
         else throw new NoSuchElementException();
     }

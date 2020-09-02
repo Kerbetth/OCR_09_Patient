@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController
-public class controllers {
+public class Controllers {
 
     @Autowired
     PatientService patientService;

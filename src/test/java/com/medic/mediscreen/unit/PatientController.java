@@ -1,7 +1,6 @@
 package com.medic.mediscreen.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.medic.mediscreen.domain.PatHistory;
 import com.medic.mediscreen.domain.Patient;
 import com.medic.mediscreen.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,17 +34,14 @@ public class PatientController {
 	@Autowired
 	MockMvc mockMvc;
 
-    PatHistory patHistory = new PatHistory();
+
     List<Patient> patients =new ArrayList<>();
     Patient patient = new Patient();
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {
-	patHistory.setId(1);
-	patHistory.setPatient(new Patient());
-	patHistory.setNote("a note");
-	patients.add(new Patient());
+	patients.add(patient);
     }
 
     @Test
@@ -58,7 +54,7 @@ public class PatientController {
 
     @Test
     public void getAPatientByName() throws Exception {
-        when(patientService.getPatientByFamilyName(anyString())).thenReturn(new Patient());
+        when(patientService.getPatientByFamilyName(anyString())).thenReturn(patient);
         mockMvc.perform(get("/Patient/familyName")
                 .param("familyName","name")
         )
@@ -67,7 +63,7 @@ public class PatientController {
 
     @Test
     public void getAPatientById() throws Exception {
-        when(patientService.getAPatientById(anyInt())).thenReturn(new Patient());
+        when(patientService.getAPatientById(anyInt())).thenReturn(patient);
         mockMvc.perform(get("/Patient/id")
                 .param("id", "1")
         )

@@ -2,10 +2,7 @@ package com.medic.mediscreen.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,12 +14,13 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "PATIENT")
 @EqualsAndHashCode(of = "id")
 public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotBlank
     String family;
@@ -38,7 +36,12 @@ public class Patient {
     String address;
     String phone;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "patient")
-    private Set<PatHistory> patHistories;
+    public Patient(@NotBlank String family, @NotBlank String given, @NotBlank LocalDate dob, @NotBlank char sex, @NotBlank String address, String phone) {
+        this.family = family;
+        this.given = given;
+        this.dob = dob;
+        this.sex = sex;
+        this.address = address;
+        this.phone = phone;
+    }
 }
