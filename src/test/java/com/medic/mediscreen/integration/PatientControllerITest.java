@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc(addFilters = false)
 @Sql(scripts={"classpath:test_data_init.sql"})
-public class PatientControllerIT {
+public class PatientControllerITest {
 
 
 	@Autowired
@@ -38,6 +38,7 @@ public class PatientControllerIT {
 
     @BeforeEach
     void setup() {
+        patient.setId(1);
         patient.setSex('F');
         patient.setPhone("000");
         patient.setGiven("given");

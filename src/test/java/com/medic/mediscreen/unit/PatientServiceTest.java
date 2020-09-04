@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,13 +35,19 @@ public class PatientServiceTest {
 
 
     List<Patient> patients = new ArrayList<>();
-    Patient Patient = new Patient();
     Patient patient = new Patient();
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {
+        patient.setId(1);
+        patient.setGiven("test");
+        patient.setSex('F');
+        patient.setDob(LocalDate.EPOCH);
+        patient.setAddress("address");
+        patient.setFamily("family");
         patients.add(new Patient());
+
     }
 
     @Test
@@ -51,8 +58,7 @@ public class PatientServiceTest {
 
     @Test
     public void getAPatientByName(){
-        Patient.setAddress("address");
-        Patient.setFamily("family");
+
         when(patient_repository.findByFamily(anyString())).thenReturn(java.util.Optional.ofNullable(patient));
         Patient patient1 =patientService.getPatientByFamilyName(anyString());
         assertThat(patient1.getAddress()).isEqualTo("address");
@@ -61,8 +67,6 @@ public class PatientServiceTest {
 
     @Test
     public void getAPatientById() {
-        Patient.setAddress("address");
-        Patient.setFamily("family");
         when(patient_repository.findById(anyInt())).thenReturn(java.util.Optional.ofNullable(patient));
         Patient patient1 =patientService.getAPatientById(anyInt());
         assertThat(patient1.getAddress()).isEqualTo("address");
@@ -71,40 +75,30 @@ public class PatientServiceTest {
 
     @Test
     public void addingAPatient() {
-        Patient.setAddress("address");
-        Patient.setFamily("family");
-        patientService.addAPatient(Patient);
+        patientService.addAPatient(patient);
     }
 
     @Test
     public void setAPatient() {
-        Patient.setAddress("address");
-        Patient.setFamily("family");
         when(patient_repository.findById(anyInt())).thenReturn(java.util.Optional.of(patient));
     }
 
     @Test
     public void delAPatient(){
-        Patient.setAddress("address");
-        Patient.setFamily("family");
         when(patient_repository.findById(anyInt())).thenReturn(java.util.Optional.of(patient));
     }
 
     @Test
     public void setAPatientWithWrongId() {
-        Patient.setAddress("address");
-        Patient.setFamily("family");
         when(patient_repository.findById(anyInt())).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class,
                 ()->{
-                    patientService.setAPatient(Patient);
+                    patientService.setAPatient(patient);
                 });
     }
 
     @Test
     public void delAPatientWithWrongId(){
-        Patient.setAddress("address");
-        Patient.setFamily("family");
         when(patient_repository.findById(anyInt())).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class,
                 ()->{

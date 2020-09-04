@@ -43,7 +43,7 @@ public class PatientService {
     }
 
     public void setAPatient(Patient patient) {
-        Optional<Patient> patientOptional =patientRepository.findById(patient.getId());
+        Optional<Patient> patientOptional = patientRepository.findById(patient.getId());
         if (patientOptional.isPresent()) {
             patientRepository.save(patient);
         }
