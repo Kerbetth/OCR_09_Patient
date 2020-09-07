@@ -7,6 +7,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
@@ -20,23 +23,24 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
-    @NotBlank
+    @NotEmpty(message = "family name is mandatory")
+    @Size(min = 3, max = 20)
     String family;
-    @NotBlank
+    @NotEmpty(message = "given name is mandatory")
+    @Size(min = 3, max = 20)
     String given;
-    @NotBlank
+    @NotNull(message = "date of birth is mandatory")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate dob;
-    @NotBlank
+    @NotNull(message = "gender is mandatory")
     char sex;
-    @NotBlank
     String address;
     String phone;
 
-    public Patient(@NotBlank String family, @NotBlank String given, @NotBlank LocalDate dob, @NotBlank char sex, @NotBlank String address, String phone) {
+    public Patient(String family,String given,LocalDate dob,char sex, String address, String phone) {
         this.family = family;
         this.given = given;
         this.dob = dob;

@@ -1,16 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
---
--- Host: localhost    Database: transferapp
--- ------------------------------------------------------
--- Server version	8.0.18
-
-DELETE FROM `patient`;
-
-
---
--- Dumping data for table `user_account`
---
-INSERT INTO `patient` (id,address, dob, family, given, phone, sex)
+INSERT INTO patient (id,address, dob, family, given, phone, sex)
 VALUES
 (1,'2 Warren Street','1968-06-22','Ferguson','Lucas','387-866-1399','M'),
 (2,'745 West Valley Farms Drive','1952-09-27','Rees','Pippa','628-423-0993','F'),

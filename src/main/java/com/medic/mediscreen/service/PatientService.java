@@ -4,7 +4,9 @@ import com.medic.mediscreen.domain.Patient;
 import com.medic.mediscreen.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,14 +25,20 @@ public class PatientService {
     protected PatientRepository patientRepository;
 
 
-
     public Patient getAPatientById(int patId) {
-        return patientRepository.findById(patId).get();
+        Optional<Patient> patientOptional = patientRepository.findById(patId);
+        if (patientOptional.isPresent()) {
+            return patientOptional.get();
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "No patient found with this id");
     }
 
     public Patient getPatientByFamilyName(String familyName) {
-        return patientRepository.findByFamily(familyName).get();
-
+        Optional<Patient> patientOptional = patientRepository.findByFamily(familyName);
+        if (patientOptional.isPresent()) {
+            return patientOptional.get();
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "No patient found with this familyName");
     }
 
     public List<Patient> getPatients() {
@@ -46,16 +54,16 @@ public class PatientService {
         Optional<Patient> patientOptional = patientRepository.findById(patient.getId());
         if (patientOptional.isPresent()) {
             patientRepository.save(patient);
-        }
-        else throw new NoSuchElementException();
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "No patient found with this id");
     }
 
     public void deleteAPatient(int patientId) {
         Optional<Patient> patient = patientRepository.findById(patientId);
         if (patient.isPresent()) {
             patientRepository.delete(patient.get());
-        }
-        else throw new NoSuchElementException();
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "No patient found with this id");
     }
 
 }

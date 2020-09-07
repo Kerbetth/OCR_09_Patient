@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc(addFilters = false)
-@Sql(scripts={"classpath:test_data_init.sql"})
 public class PatientControllerITest {
 
 
@@ -55,7 +54,9 @@ public class PatientControllerITest {
         )
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         ArrayList<Patient> patients = objectMapper.readValue(result, ArrayList.class);
+
         assertThat(patients).hasSize(10);
+        System.out.println(result);
     }
 
     @Test
@@ -68,11 +69,10 @@ public class PatientControllerITest {
 
     @Test
     public void getAPatientById() throws Exception {
-
         mockMvc.perform(get("/Patient/id")
                 .param("id","1")
         )
-                .andExpect(status().isOk());
+                .andExpect(status().is4xxClientError());
     }
 
 	@Test
@@ -89,11 +89,10 @@ public class PatientControllerITest {
     @Test
     public void setAPatient() throws Exception {
 
-        String json = objectMapper.writeValueAsString(patient);
+        String json = "{\"id\":\"1\",\"family\": \"family\", \"given\": \"given\", \"dob\":\"2000-02-04\",\"sex\":\"M\"}";
         mockMvc.perform(post("/Patient/set")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
-                .param("id", "1")
         )
                 .andExpect(status().isOk());
     }

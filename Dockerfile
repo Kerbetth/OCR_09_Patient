@@ -1,4 +1,4 @@
 FROM openjdk:14
-ADD build/libs/medi-patient.jar medi-patient.jar
+ADD target/mediscreen-patient-1.jar mediscreen-patient-1.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "medi-patient.jar"]
+ENTRYPOINT  ["java", "-jar","-Dspring.profiles.active=container", "mediscreen-patient-1.jar"]

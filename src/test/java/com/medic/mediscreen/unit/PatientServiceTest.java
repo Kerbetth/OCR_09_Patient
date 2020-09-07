@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class PatientServiceTest {
     @Test
     public void setAPatientWithWrongId() {
         when(patient_repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class,
+        assertThrows(ResponseStatusException.class,
                 ()->{
                     patientService.setAPatient(patient);
                 });
@@ -100,7 +101,7 @@ public class PatientServiceTest {
     @Test
     public void delAPatientWithWrongId(){
         when(patient_repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class,
+        assertThrows(ResponseStatusException.class,
                 ()->{
                     patientService.deleteAPatient(1);
                 });

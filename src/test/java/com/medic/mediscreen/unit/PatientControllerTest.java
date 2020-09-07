@@ -12,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class PatientControllerTest {
 
     @BeforeEach
     void setup() {
-	patients.add(patient);
+        patients.add(patient);
     }
 
     @Test
@@ -72,7 +74,7 @@ public class PatientControllerTest {
 
 	@Test
 	public void addingAPatient() throws Exception {
-        String json = objectMapper.writeValueAsString(patient);
+        String json = "{\"family\": \"family\", \"given\": \"given\", \"dob\":\"2000-02-04\",\"sex\":\"M\"}";
 		mockMvc.perform(post("/Patient/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json)
@@ -82,7 +84,7 @@ public class PatientControllerTest {
 
     @Test
     public void setAPatient() throws Exception {
-        String json = objectMapper.writeValueAsString(patient);
+        String json = "{\"family\": \"family\", \"given\": \"given\", \"dob\":\"2000-02-04\",\"sex\":\"M\"}";
         mockMvc.perform(post("/Patient/set")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
@@ -92,8 +94,6 @@ public class PatientControllerTest {
 
     @Test
     public void delAPatient() throws Exception {
-        String json = objectMapper.writeValueAsString(patient);
-
         mockMvc.perform(post("/Patient/del")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("patientId", "1")

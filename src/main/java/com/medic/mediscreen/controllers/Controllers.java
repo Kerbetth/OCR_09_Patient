@@ -6,6 +6,7 @@ import com.medic.mediscreen.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -32,12 +33,12 @@ public class Controllers {
     }
 
     @PostMapping(value = "/Patient/add")
-    void addAPatient(@RequestBody Patient patient) {
+    void addAPatient(@RequestBody @Valid Patient patient) {
         patientService.addAPatient(patient);
     }
 
     @RequestMapping(value = "/Patient/set")
-    void setAPatient(@RequestBody Patient patient) {
+    void setAPatient(@RequestBody @Valid Patient patient) {
         patientService.setAPatient(patient);
     }
 
