@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -90,7 +92,7 @@ public class PatientControllerITest {
     public void setAPatient() throws Exception {
 
         String json = "{\"id\":\"1\",\"family\": \"family\", \"given\": \"given\", \"dob\":\"2000-02-04\",\"sex\":\"M\"}";
-        mockMvc.perform(post("/Patient/set")
+        mockMvc.perform(put("/Patient/set")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
@@ -101,7 +103,7 @@ public class PatientControllerITest {
     public void delAPatient() throws Exception {
         String json = objectMapper.writeValueAsString(patient);
 
-        mockMvc.perform(post("/Patient/del")
+        mockMvc.perform(delete("/Patient/del")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("patientId", "1")
         )

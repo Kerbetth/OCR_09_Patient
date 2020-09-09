@@ -37,12 +37,12 @@ public class Controllers {
         patientService.addAPatient(patient);
     }
 
-    @RequestMapping(value = "/Patient/set")
+    @PutMapping(value = "/Patient/set")
     void setAPatient(@RequestBody @Valid Patient patient) {
         patientService.setAPatient(patient);
     }
 
-    @RequestMapping(value = "/Patient/del")
+    @DeleteMapping(value = "/Patient/del")
     void deleteAPatient(@RequestParam int patientId) {
         patientService.deleteAPatient(patientId);
     }

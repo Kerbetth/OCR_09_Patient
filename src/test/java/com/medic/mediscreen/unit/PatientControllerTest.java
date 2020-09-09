@@ -23,6 +23,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -85,7 +87,7 @@ public class PatientControllerTest {
     @Test
     public void setAPatient() throws Exception {
         String json = "{\"family\": \"family\", \"given\": \"given\", \"dob\":\"2000-02-04\",\"sex\":\"M\"}";
-        mockMvc.perform(post("/Patient/set")
+        mockMvc.perform(put("/Patient/set")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
@@ -94,7 +96,7 @@ public class PatientControllerTest {
 
     @Test
     public void delAPatient() throws Exception {
-        mockMvc.perform(post("/Patient/del")
+        mockMvc.perform(delete("/Patient/del")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("patientId", "1")
         )
