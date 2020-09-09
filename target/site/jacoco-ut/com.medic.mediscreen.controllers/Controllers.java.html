@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Controllers.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mediscreen</a> &gt; <a href="index.source.html" class="el_package">com.medic.mediscreen.controllers</a> &gt; <span class="el_source">Controllers.java</span></div><h1>Controllers.java</h1><pre class="source lang-java linenums">package com.medic.mediscreen.controllers;
+
+
+import com.medic.mediscreen.domain.Patient;
+import com.medic.mediscreen.service.PatientService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+
+@RestController
+<span class="fc" id="L14">public class Controllers {</span>
+
+    @Autowired
+    PatientService patientService;
+
+
+    @GetMapping(value = &quot;/Patients&quot;)
+    List&lt;Patient&gt; getPatientList() {
+<span class="fc" id="L22">        return patientService.getPatients();</span>
+    }
+
+    @GetMapping(value = &quot;/Patient/familyName&quot;)
+    Patient getPatientByFamilyName(@RequestParam String familyName){
+<span class="fc" id="L27">        return patientService.getPatientByFamilyName(familyName);</span>
+    }
+
+    @GetMapping(value = &quot;/Patient/id&quot;)
+    Patient getPatient(@RequestParam int id) {
+<span class="fc" id="L32">        return patientService.getAPatientById(id);</span>
+    }
+
+    @PostMapping(value = &quot;/Patient/add&quot;)
+    void addAPatient(@RequestBody @Valid Patient patient) {
+<span class="fc" id="L37">        patientService.addAPatient(patient);</span>
+<span class="fc" id="L38">    }</span>
+
+    @PutMapping(value = &quot;/Patient/set&quot;)
+    void setAPatient(@RequestBody @Valid Patient patient) {
+<span class="fc" id="L42">        patientService.setAPatient(patient);</span>
+<span class="fc" id="L43">    }</span>
+
+    @DeleteMapping(value = &quot;/Patient/del&quot;)
+    void deleteAPatient(@RequestParam int patientId) {
+<span class="fc" id="L47">        patientService.deleteAPatient(patientId);</span>
+<span class="fc" id="L48">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
