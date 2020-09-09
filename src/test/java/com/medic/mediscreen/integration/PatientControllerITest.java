@@ -94,7 +94,7 @@ public class PatientControllerITest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
         )
-                .andExpect(status().isOk());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test

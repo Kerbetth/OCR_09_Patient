@@ -15,13 +15,15 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 /**
- * createAccount() method create a new user account with encrypted password and save it in database
- * getAccountInfo() method retrieve name and email from the user
+ * this service inject defaut data define in the patient_data_init.sql file at the beginning of the application
  */
 
 @Service
@@ -44,13 +46,10 @@ public class PatientUtil {
                 @Override
                 protected void doInTransactionWithoutResult(TransactionStatus status) {
                     String queryContent = null;
+                    BufferedReader bufferedReader = null;
                     em.createNativeQuery("DELETE FROM patient").executeUpdate();
-                    try {
-                        queryContent = new String(Files.readAllBytes(Paths.get("src/main/resources/patient_data_init.sql")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    em.createNativeQuery(queryContent).executeUpdate();
+                    bufferedReader =  new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/patient_data_init.sql")));
+                    em.createNativeQuery(bufferedReader.lines().collect(Collectors.joining())).executeUpdate();
 
                     log.info("initial data inserted");
                 }

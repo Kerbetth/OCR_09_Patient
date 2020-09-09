@@ -23,7 +23,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotEmpty(message = "family name is mandatory")
     @Size(min = 3, max = 20)
