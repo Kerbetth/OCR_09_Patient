@@ -115,7 +115,7 @@
                         <configuration>
                             <classifier>spring-boot</classifier>
                             <mainClass>
-                                com.paymybuddy.transferapps.MediscreenPatientApplication
+                                com.medic.mediscreen.MediscreenPatientApplication
                             </mainClass>
                         </configuration>
                     </execution>
