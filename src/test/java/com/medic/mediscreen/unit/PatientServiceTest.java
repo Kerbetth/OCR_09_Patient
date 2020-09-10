@@ -2,6 +2,7 @@ package com.medic.mediscreen.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medic.mediscreen.domain.Patient;
+import com.medic.mediscreen.exceptions.PatientNotFoundException;
 import com.medic.mediscreen.repositories.PatientRepository;
 import com.medic.mediscreen.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +93,7 @@ public class PatientServiceTest {
     @Test
     public void setAPatientWithWrongId() {
         when(patient_repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(ResponseStatusException.class,
+        assertThrows(PatientNotFoundException.class,
                 ()->{
                     patientService.setAPatient(patient);
                 });
@@ -101,7 +102,7 @@ public class PatientServiceTest {
     @Test
     public void delAPatientWithWrongId(){
         when(patient_repository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(ResponseStatusException.class,
+        assertThrows(PatientNotFoundException.class,
                 ()->{
                     patientService.deleteAPatient(1);
                 });

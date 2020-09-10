@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mediscreen</a> &gt; <a href="index.source.html" class="el_package">com.medic.mediscreen.service</a> &gt; <span class="el_source">PatientService.java</span></div><h1>PatientService.java</h1><pre class="source lang-java linenums">package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.Patient;
+import com.medic.mediscreen.exceptions.PatientNotFoundException;
 import com.medic.mediscreen.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ import java.util.Optional;
  */
 
 @Service
-<span class="fc" id="L20">@Slf4j</span>
-<span class="fc" id="L21">public class PatientService {</span>
+<span class="fc" id="L21">@Slf4j</span>
+<span class="fc" id="L22">public class PatientService {</span>
 
 
     @Autowired
@@ -26,45 +27,53 @@ import java.util.Optional;
 
 
     public Patient getAPatientById(int patId) {
-<span class="fc" id="L29">        Optional&lt;Patient&gt; patientOptional = patientRepository.findById(patId);</span>
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (patientOptional.isPresent()) {</span>
-<span class="fc" id="L31">            return patientOptional.get();</span>
-<span class="fc" id="L32">        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,</span>
-                &quot;No patient found with this id&quot;);
+<span class="fc" id="L30">        Optional&lt;Patient&gt; patientOptional = patientRepository.findById(patId);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (patientOptional.isPresent()) {</span>
+<span class="fc" id="L32">            return patientOptional.get();</span>
+        } else {
+<span class="fc" id="L34">            log.info(&quot;No patient found with the id: &quot;+patId);</span>
+<span class="fc" id="L35">            throw new PatientNotFoundException(&quot;No patient found with this id&quot;);</span>
+        }
     }
 
     public Patient getPatientByFamilyName(String familyName) {
-<span class="fc" id="L37">        Optional&lt;Patient&gt; patientOptional = patientRepository.findByFamily(familyName);</span>
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (patientOptional.isPresent()) {</span>
-<span class="fc" id="L39">            return patientOptional.get();</span>
-<span class="fc" id="L40">        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,</span>
-                &quot;No patient found with this familyName&quot;);
+<span class="fc" id="L40">        Optional&lt;Patient&gt; patientOptional = patientRepository.findByFamily(familyName);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (patientOptional.isPresent()) {</span>
+<span class="fc" id="L42">            return patientOptional.get();</span>
+        } else {
+<span class="nc" id="L44">            log.info(&quot;No patient found with the family Name: &quot;+familyName);</span>
+<span class="nc" id="L45">            throw new PatientNotFoundException(&quot;No patient found with this family Name&quot;);</span>
+        }
     }
 
     public List&lt;Patient&gt; getPatients() {
 
-<span class="fc" id="L46">        return patientRepository.findAll();</span>
+<span class="fc" id="L51">        return patientRepository.findAll();</span>
     }
 
     public void addAPatient(Patient Patient) {
-<span class="fc" id="L50">        patientRepository.save(Patient);</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc" id="L55">        patientRepository.save(Patient);</span>
+<span class="fc" id="L56">    }</span>
 
     public void setAPatient(Patient patient) {
-<span class="fc" id="L54">        Optional&lt;Patient&gt; patientOptional = patientRepository.findById(patient.getId());</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (patientOptional.isPresent()) {</span>
-<span class="fc" id="L56">            patientRepository.save(patient);</span>
-<span class="fc" id="L57">        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,</span>
-                &quot;No patient found with this id&quot;);
-<span class="fc" id="L59">    }</span>
+<span class="fc" id="L59">        Optional&lt;Patient&gt; patientOptional = patientRepository.findById(patient.getId());</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (patientOptional.isPresent()) {</span>
+<span class="nc" id="L61">            patientRepository.save(patient);</span>
+        } else {
+<span class="fc" id="L63">            log.info(&quot;No patient found with the id: &quot;+patient.getId());</span>
+<span class="fc" id="L64">            throw new PatientNotFoundException(&quot;No patient found with this id&quot;);</span>
+        }
+<span class="nc" id="L66">    }</span>
 
     public void deleteAPatient(int patientId) {
-<span class="fc" id="L62">        Optional&lt;Patient&gt; patient = patientRepository.findById(patientId);</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (patient.isPresent()) {</span>
-<span class="fc" id="L64">            patientRepository.delete(patient.get());</span>
-<span class="fc" id="L65">        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,</span>
-                &quot;No patient found with this id&quot;);
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L69">        Optional&lt;Patient&gt; patient = patientRepository.findById(patientId);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (patient.isPresent()) {</span>
+<span class="fc" id="L71">            patientRepository.delete(patient.get());</span>
+        } else {
+<span class="fc" id="L73">            log.info(&quot;No patient found with the id: &quot;+patientId);</span>
+<span class="fc" id="L74">            throw new PatientNotFoundException(&quot;No patient found with this id&quot;);</span>
+        }
+<span class="fc" id="L76">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
