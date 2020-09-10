@@ -1,6 +1,7 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.Patient;
+import com.medic.mediscreen.exceptions.PatientNotFoundException;
 import com.medic.mediscreen.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,20 @@ public class PatientService {
         Optional<Patient> patientOptional = patientRepository.findById(patId);
         if (patientOptional.isPresent()) {
             return patientOptional.get();
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "No patient found with this id");
+        } else {
+            log.info("No patient found with the id: "+patId);
+            throw new PatientNotFoundException("No patient found with this id");
+        }
     }
 
     public Patient getPatientByFamilyName(String familyName) {
         Optional<Patient> patientOptional = patientRepository.findByFamily(familyName);
         if (patientOptional.isPresent()) {
             return patientOptional.get();
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "No patient found with this familyName");
+        } else {
+            log.info("No patient found with the family Name: "+familyName);
+            throw new PatientNotFoundException("No patient found with this family Name");
+        }
     }
 
     public List<Patient> getPatients() {
@@ -54,16 +59,20 @@ public class PatientService {
         Optional<Patient> patientOptional = patientRepository.findById(patient.getId());
         if (patientOptional.isPresent()) {
             patientRepository.save(patient);
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "No patient found with this id");
+        } else {
+            log.info("No patient found with the id: "+patient.getId());
+            throw new PatientNotFoundException("No patient found with this id");
+        }
     }
 
     public void deleteAPatient(int patientId) {
         Optional<Patient> patient = patientRepository.findById(patientId);
         if (patient.isPresent()) {
             patientRepository.delete(patient.get());
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "No patient found with this id");
+        } else {
+            log.info("No patient found with the id: "+patientId);
+            throw new PatientNotFoundException("No patient found with this id");
+        }
     }
 
 }

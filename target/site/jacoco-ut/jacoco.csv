@@ -1,5 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-mediscreen,com.medic.mediscreen.service,PatientService,0,98,0,8,0,23,0,12,0,8
+mediscreen,com.medic.mediscreen.exceptions,PatientNotFoundException,0,4,0,0,0,2,0,1,0,1
+mediscreen,com.medic.mediscreen.service,PatientService,16,95,2,6,4,23,2,10,0,8
 mediscreen,com.medic.mediscreen.util,PatientUtil,0,24,1,1,0,6,1,3,0,3
 mediscreen,com.medic.mediscreen.util,PatientUtil.new TransactionCallbackWithoutResult() {...},0,43,0,0,0,8,0,2,0,2
 mediscreen,com.medic.mediscreen,Config,0,21,0,0,0,7,0,2,0,2
